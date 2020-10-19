@@ -1,0 +1,7 @@
+{
+  "name": "DentTrack",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
