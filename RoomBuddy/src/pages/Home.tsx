@@ -1,9 +1,11 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar ,IonButton} from '@ionic/react';
 import React from 'react';
-import ExploreContainer from '../components/ExploreContainer';
+import { useHistory } from 'react-router';
 import './Home.css';
 
 const Home: React.FC = () => {
+const history = useHistory()
+ 
   return (
     <IonPage>
       <IonHeader>
@@ -15,9 +17,10 @@ const Home: React.FC = () => {
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Blank</IonTitle>
+            
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer />
+        <IonButton onClick={()=>history.push("/homes")} color="primary">See Homes</IonButton>
       </IonContent>
     </IonPage>
   );
