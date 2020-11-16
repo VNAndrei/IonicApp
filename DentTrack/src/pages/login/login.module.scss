@@ -1,0 +1,34 @@
+.root {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+.logo {
+    width: 100%;
+    padding-top: 10vh;
+    padding-bottom: 3vh;
+}
+
+.typography {
+    text-align: center;
+    font-size: medium;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-normal);
+}
+.fieldset {
+    margin: 16px 0px 32px 0px;
+    padding: 0;
+    border-style: none;
+    align-items: center;
+}
+.formControl {
+    display: block;
+    margin-top: 16px;
+}
+.errorMessage {
+    font-size: medium;
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    align-items: center;
+    color: var(--color-text-error);
+}

@@ -1,0 +1,23 @@
+.datePicker {
+    width: 100%;
+    border-radius: 8px;
+    border: solid 1px;
+    border-color: var(--color-text-normal);
+    --background: var(--color-white);
+    padding: 6px 12px 6px 12px;
+    font-size: 16px;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-normal);
+    box-sizing: border-box;
+    &:focus {
+        --background: var(--color-white);
+        outline: 0px transparent;
+    }
+}
+
+.label {
+    margin-bottom: 4px;
+    font-size: 16px;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-normal);
+}

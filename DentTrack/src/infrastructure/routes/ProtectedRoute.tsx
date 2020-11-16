@@ -2,7 +2,7 @@ import { useStateMachine } from "little-state-machine";
 import * as React from "react";
 import { Route, Redirect, RouteComponentProps } from "react-router-dom";
 import { Role } from "../../domain/enums/Role";
-import { AppState } from "../states/appState";
+import { AppState } from "../states/AppState";
 import { freeRoutes } from "./routes";
 
 interface ProtectedRouteProps {

@@ -1,0 +1,21 @@
+.root {
+    padding: 10;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.statusCode {
+    font-size: 10vmin;
+    font-weight: var(--font-weight-extraBold);
+    color: var(--color-primary);
+}
+.title {
+    font-size: 7.5vmin;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-secondary);
+}
+.description {
+    font-size: 5vmin;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-error);
+}

@@ -1,5 +1,5 @@
 export const protectedRoutes = {
-    yourActivity: "/",
+    home: "/",
     technicians: "/technicians",
 };
 

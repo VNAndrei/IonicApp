@@ -23,15 +23,28 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import { createStore, StateMachineProvider } from "little-state-machine";
 import { AppState } from "./infrastructure/states/AppState";
+import Button from "./components/button/Button";
+import Select from "./components/select/Select";
+import Input from "./components/input/Input";
+import DatePicker from "./components/datePicker/DatePicker";
+import NotFound from "./pages/notFound/NotFound";
+import { freeRoutes } from "./infrastructure/routes/routes";
+import Forbidden from "./pages/forbidden/Forbidden";
+import Login from "./pages/login/Login";
 const initialState: AppState = {
     account: {},
 };
 createStore(initialState);
 const App: React.FC = () => (
     <StateMachineProvider>
-        <IonApp>
+        <IonApp style={{ backgroundColor: "#FFFFFF" }}>
             <IonReactRouter>
-                <IonRouterOutlet></IonRouterOutlet>
+                <IonRouterOutlet>
+                    <Route path={freeRoutes.forbidden} component={Forbidden} />
+
+                    <Route path={freeRoutes.login} component={Login} />
+                    <Route component={NotFound} />
+                </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
     </StateMachineProvider>
