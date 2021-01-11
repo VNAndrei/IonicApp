@@ -1,5 +1,4 @@
 import { Role } from "../enums/Role";
-import { type } from "os";
 
 export type User = {
     id: number;

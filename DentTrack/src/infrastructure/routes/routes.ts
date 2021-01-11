@@ -1,5 +1,5 @@
 export const protectedRoutes = {
-    home: "/",
+    treatments: "/treatments",
     technicians: "/technicians",
 };
 

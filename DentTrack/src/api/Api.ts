@@ -1,22 +1,18 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import dayjs from "dayjs";
-import qs from "qs";
-import { Error } from "../domain/models/Error";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 export default class Api {
     [x: string]: any;
 
     public constructor(config?: AxiosRequestConfig) {
         this.api = axios.create(config);
-        this.api.interceptors.request.use((param: AxiosRequestConfig) => ({
-            baseUrl: process.env.API_BASE_URL,
-            paramsSerializer: (param: any) =>
-                qs.stringify(param, {
-                    serializeDate: (date: Date) =>
-                        dayjs(date).format("YYYY-MM-DDTHH:mm:ssZ"),
-                }),
-            ...param,
-        }));
+
+        this.api.interceptors.request.use((config: AxiosRequestConfig) => {
+            const token = this.getCurrentUserToken();
+            config.headers.Authorization = token ? `Bearer ${token}` : "";
+            return config;
+        });
+
+        this.api.interceptors.response.use(({ data }: AxiosResponse) => data);
 
         this.getUri = this.getUri.bind(this);
         this.request = this.request.bind(this);
@@ -26,48 +22,42 @@ export default class Api {
         this.put = this.put.bind(this);
     }
 
-    public getUri(config?: AxiosRequestConfig): string {
+    private getCurrentUserToken() {
+        const currentUser = localStorage.getItem("__STATE_MACHINE__");
+        return currentUser === null
+            ? ""
+            : JSON.parse(currentUser).account.token;
+    }
+
+    protected getUri(config?: AxiosRequestConfig): string {
         return this.api.getUri(config);
     }
-    public request<T, R = AxiosResponse<T>>(
-        config: AxiosRequestConfig
-    ): Promise<R> {
+
+    protected request<T>(config: AxiosRequestConfig): Promise<T> {
         return this.api.request(config);
     }
 
-    public get<T, R = AxiosResponse<T>>(
-        url: string,
-        config?: AxiosRequestConfig
-    ): Promise<R> {
+    protected get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
         return this.api.get(url, config);
     }
 
-    public post<T, B, R = AxiosResponse<T>>(
+    protected post<T, B>(
         url: string,
         data?: B,
         config?: AxiosRequestConfig
-    ): Promise<R> {
+    ): Promise<T> {
         return this.api.post(url, data, config);
     }
 
-    public put<T, B, R = AxiosResponse<T>>(
+    protected put<T, B>(
         url: string,
         data?: B,
         config?: AxiosRequestConfig
-    ): Promise<R> {
+    ): Promise<T> {
         return this.api.put(url, data, config);
     }
 
-    public delete<T, R = AxiosResponse<T>>(
-        url: string,
-        config?: AxiosRequestConfig
-    ): Promise<R> {
+    protected delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
         return this.api.delete(url, config);
-    }
-    public succes<T>(response: AxiosResponse<T>) {
-        return response.data;
-    }
-    public error(error: AxiosError<Error>): Error {
-        return { message: error.message, isAxiosError: true };
     }
 }

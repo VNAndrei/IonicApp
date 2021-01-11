@@ -4,6 +4,7 @@ import { User } from "../domain/models/User";
 import Api from "./Api";
 import { Error } from "../domain/models/Error";
 import { Technician } from "../domain/models/Technician";
+import { apiConfig } from "../config/api.config";
 
 export class AccountApi extends Api {
     public constructor(config?: AxiosRequestConfig) {
@@ -20,19 +21,15 @@ export class AccountApi extends Api {
         this.getTechnicians = this.getTechnicians.bind(this);
     }
 
-    public login(credentials: Credentials): Promise<User | Error> {
-        return this.post<User, Credentials, AxiosResponse<User>>(
+    public login(credentials: Credentials): Promise<User> {
+        return this.post<User, Credentials>(
             "/accounts/authenticate",
             credentials
-        )
-            .then(this.succes)
-            .catch(this.error);
+        );
     }
-    public getTechnicians(): Promise<Technician[] | Error> {
-        return this.get<Technician[], AxiosResponse<Technician[]>>(
-            "/accounts/technicians"
-        )
-            .then(this.succes)
-            .catch(this.error);
+    public getTechnicians(): Promise<Technician[]> {
+        return this.get<Technician[]>("/accounts/technicians");
     }
 }
+
+export const accountApi = new AccountApi(apiConfig);

@@ -10,14 +10,13 @@ import { useStateMachine } from "little-state-machine";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { updateAccount } from "../../actions/account";
-import { AccountApi } from "../../api/AccountApi";
+import { accountApi, AccountApi } from "../../api/AccountApi";
 import { images } from "../../common/appConstants/images";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import { apiConfig } from "../../config/api.config";
 import { protectedRoutes } from "../../infrastructure/routes/routes";
 import { isError } from "../../domain/models/Error";
-
 import styles from "./login.module.scss";
 import { User } from "../../domain/models/User";
 interface LoginProps {}
@@ -36,7 +35,7 @@ const Login: React.FC<LoginProps> = () => {
     const isAuthed = !!account.id;
 
     if (isAuthed) {
-        history.push(protectedRoutes.home);
+        history.push(protectedRoutes.technicians);
     }
 
     const handleInput = (e: any) => {
@@ -45,27 +44,24 @@ const Login: React.FC<LoginProps> = () => {
             [e.target.name]: e.target.value,
         });
     };
-    const loginUser = async () => {
-        const service = new AccountApi(apiConfig);
 
-        const result = service.login(credentials);
-        return result;
-    };
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        let loggedUser = await loginUser(); //apel
-        if (isError(loggedUser)) {
-            setError(true);
-            return;
-        }
-        loggedUser = loggedUser as User;
-        action({
-            token: loggedUser.token,
-            role: loggedUser.role,
-            id: loggedUser.id,
-            displayName: loggedUser.displayName,
-        });
-        history.push(protectedRoutes.home);
+        accountApi
+            .login(credentials)
+            .then((data) => {
+                action({
+                    token: data.token,
+                    role: data.role,
+                    id: data.id,
+                    displayName: data.displayName,
+                });
+                history.push(protectedRoutes.technicians);
+            })
+            .catch((err) => {
+                setError(true);
+                return err;
+            });
     };
     return (
         <IonContent>
